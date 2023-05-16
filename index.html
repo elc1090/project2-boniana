@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shiba</title>
+    <style>
+        .button-shiba {
+            background-color: #ff3e5f;
+            border: #ff3e5f solid 0.1rem;
+            border-radius: 2rem;
+            width: 15rem;
+            height: 4rem;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .button-shiba:hover {
+            background-color: transparent;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+            transition: all 0.2s ease-in-out;
+            color: #ff3e5f;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .image {
+            width: 300px;
+            height: 300px;
+            border-radius: 8%;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .loading {
+            width: 100%;
+            height: 100vh;
+            background-color: #505050e8;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            z-index: 999;
+            text-align: center;
+            font-size: 2rem;
+            align-items: center;
+            justify-content: center;
+            color: #fe718d;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="loading">Procurando shiba
+        <img class="spinner" src="./Spinner-1s-200px.svg" alt="loading">
+    </div>
+    <div class="container">
+        <h1>Cachorro Shiba</h1>
+        <p>Este é o seu shiba de hoje!</p>
+        <div>
+            <img src="https://cdn.shibe.online/shibes/7bfd36aed9fbfe08fec7ec1037d73eda7da3cf2c.jpg" class="image"
+                alt="shibba">
+        </div>
+        <button class="button-shiba">Quero um novo shiba!</button>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+        const button = document.querySelector('.button-shiba');
+        const image = document.querySelector('.image');
+        const loading = document.querySelector('.loading');
+        button.addEventListener('click', () => {
+            loading.style.display = 'flex';
+            axios.get('http://shibe.online/api/shibes', {
+                params: {
+                    count: 1,
+                    urls: true,
+                    httpsUrls: true
+                }
+            }).then((response) => {
+                console.log(response)
+                image.src = response.data[0];
+                loading.style.display = 'none';
+            }).catch((error) => {
+                console.log(error);
+                loading.style.display = 'none';
+                alert('Erro ao carregar shiba');
+            }
+            );
+
+        });
+    </script>
+</body>
+
+
+</html>
